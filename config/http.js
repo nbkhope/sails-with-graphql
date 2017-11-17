@@ -66,7 +66,7 @@ module.exports.http = {
 
     graphql(req, res, next) {
       console.log('graphql middleware', req.url);
-      if (req.url.includes('/graphql')) {
+      if (req.url.startsWith('/graphql')) {
         require('express-graphql')({
           schema,
           graphiql: true,
