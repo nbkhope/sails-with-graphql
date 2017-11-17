@@ -9,6 +9,8 @@ const {
 
 const MakerType = require('./MakerType');
 const ProductType = require('./ProductType');
+const ModelType = require('./ModelType');
+const mutation = require('./mutations');
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -32,18 +34,43 @@ const schema = new GraphQLSchema({
         },
       },
       products: {
-        type: new GraphQLList(ProductType),//new GraphQLList(ProductType),
+        type: new GraphQLList(ProductType),
         resolve() {
-          // console.log('resolve!');
-          // return ['a', 'b', 'c'].map((name, index) => ({
-          //   id: index + 1,
-          //   name,
-          // }));
+          console.log('resolve products!');
           return Product.find();
         },
-      }
+      },
+      product: {
+        type: ProductType,
+        args: {
+          id: {
+            type: new GraphQLNonNull(GraphQLID),
+          },
+        },
+        resolve(parentValue, args) {
+          return Product.findOne({ id: args.id });
+        }
+      },
+      models: {
+        type: new GraphQLList(ModelType),
+        resolve() {
+          return Model.find();
+        },
+      },
+      model: {
+        type: ModelType,
+        args: {
+          id: {
+            type: new GraphQLNonNull(GraphQLID),
+          },
+        },
+        resolve(parentValue, args) {
+          return Model.findOne({ id: args.id });
+        }
+      },
     }),
   }),
+  mutation,
 });
 
 module.exports = schema;
