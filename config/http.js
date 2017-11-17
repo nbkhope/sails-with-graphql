@@ -14,15 +14,33 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
+  GraphQLID,
 } = require('graphql');
+
+const ProductType = new GraphQLObjectType({
+  name: 'ProductType',
+  fields: () => ({
+    id: {
+      type: GraphQLID,
+    },
+    name: {
+      type: GraphQLString,
+    },
+  }),
+});
+
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQueryType',
     fields: () => ({
       products: {
-        type: new GraphQLList(GraphQLString),//new GraphQLList(ProductType),
+        type: new GraphQLList(ProductType),//new GraphQLList(ProductType),
         resolve() {
-          return ['a', 'b', 'c'];
+          console.log('resolve!');
+          return ['a', 'b', 'c'].map((name, index) => ({
+            id: index + 1,
+            name,
+          }));
         },
       }
     }),
@@ -54,6 +72,7 @@ module.exports.http = {
       'startRequestTimer',
       'cookieParser',
       'session',
+      'graphql',
       'myRequestLogger',
       'bodyParser',
       'handleBodyParserError',
@@ -63,7 +82,6 @@ module.exports.http = {
       '$custom',
       'router',
       'www',
-      'graphql',
       'favicon',
       '404',
       '500',
@@ -83,15 +101,16 @@ module.exports.http = {
     // }
 
     graphql(req, res, next) {
-      console.log('graphql middleware');
-      if (req.url === '/graphql') {
+      console.log('graphql middleware', req.url);
+      if (req.url.includes('/graphql')) {
         require('express-graphql')({
           schema,
           graphiql: true,
         })(req, res);
+        console.log('gonna return with require call');
         return;
       }
-
+      console.log('skipping');
       return next();
     },
 
