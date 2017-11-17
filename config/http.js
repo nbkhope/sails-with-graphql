@@ -9,43 +9,7 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
 
-const {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList,
-  GraphQLID,
-} = require('graphql');
-
-const ProductType = new GraphQLObjectType({
-  name: 'ProductType',
-  fields: () => ({
-    id: {
-      type: GraphQLID,
-    },
-    name: {
-      type: GraphQLString,
-    },
-  }),
-});
-
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: () => ({
-      products: {
-        type: new GraphQLList(ProductType),//new GraphQLList(ProductType),
-        resolve() {
-          console.log('resolve!');
-          return ['a', 'b', 'c'].map((name, index) => ({
-            id: index + 1,
-            name,
-          }));
-        },
-      }
-    }),
-  }),
-});
+const schema = require('../schemas/schema');
 
 module.exports.http = {
 
