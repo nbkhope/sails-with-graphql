@@ -17,18 +17,10 @@ module.exports = new GraphQLObjectType({
     name: {
       type: GraphQLString,
     },
-    // maker: {
-    //   type: MakerType,
-    //   resolve(parentValue) {
-    //     console.log('gonna resolve productType.maker. parentValue is', parentValue);
-    //     return Maker.findOne({ id: parentValue.maker });
-    //   },
-    // },
     maker: {
       type: require('./MakerType'), // for some reason this is the only way to make it work
       resolve(parentValue) {
         console.log('gonna resolve productType.maker. parentValue is', parentValue);
-        // return 'ABC';
         return Maker.findOne({ id: parentValue.maker });
       }
     },
