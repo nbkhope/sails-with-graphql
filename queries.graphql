@@ -1,0 +1,148 @@
+### Fragments ###
+
+fragment makerDetails on MakerType {
+  id
+  name
+}
+
+fragment productDetails on ProductType {
+  id
+  name
+}
+
+fragment modelDetails on ModelType {
+  id
+  name
+  price
+  releaseDate
+}
+
+### Makers ###
+
+query FetchMakers {
+  makers {
+    ...makerDetails
+    products {
+      ...productDetails
+      models {
+        ...modelDetails
+      }
+    }
+  }
+}
+
+query FetchMaker($id: ID) {
+  maker(id: $id) {
+    ...makerDetails
+    products {
+      ...productDetails
+      models {
+        ...modelDetails
+      }
+    }
+  }
+}
+
+mutation CreateMaker($name: String!) {
+  createMaker(name: $name) {
+    ...makerDetails
+  }
+}
+
+mutation UpdateMaker($id: ID!, $name: String) {
+  updateMaker(id: $id, name: $name) {
+    ...makerDetails
+  }
+}
+
+mutation DeleteMaker($id: ID){
+  deleteMaker(id: $id) {
+    id
+  }
+}
+
+### Products ###
+
+query FetchProducts {
+  products {
+    id
+    name
+    models {
+      ...modelDetails
+    }
+  }
+}
+
+query FetchProduct($id: ID) {
+  product(id: $id) {
+    id
+    name
+    maker {
+      ...makerDetails
+    }
+    models {
+      ...modelDetails
+    }
+  }
+}
+
+mutation CreateProduct($name: String!, $maker: ID) {
+  createProduct(name: $name, maker: $maker) {
+    id
+    name
+  }
+}
+
+mutation UpdateProduct($id: ID!, $name: String, $maker: ID) {
+  updateProduct(id: $id, name: $name, maker: $maker) {
+    id
+    name
+    maker {
+      id
+      name
+    }
+  }
+}
+
+### Models ###
+
+query FetchModels {
+  models {
+    ...modelDetails,
+    product {
+      id
+      name
+    }
+  }
+}
+
+query FetchModel($id: ID) {
+  model(id: $id) {
+    ...modelDetails,
+    product {
+      id
+      name
+    }
+  }
+}
+
+mutation CreateModel($name: String!, $price: Float!, $releaseDate: String, $product: ID) {
+  createModel(name: $name, price: $price, releaseDate: $releaseDate, product: $product) {
+    id
+    name
+    price
+    releaseDate
+    product {
+      name
+    }
+  }
+}
+
+mutation UpdateModel($id: ID!, $name: String, $price: Float, $releaseDate: String, $product: ID) {
+  updateModel(id: $id, name: $name, price: $price, releaseDate: $releaseDate, product: $product) {
+    ...modelDetails,
+    product {
+      name
+    }
+  }
+}

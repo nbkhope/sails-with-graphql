@@ -30,3 +30,11 @@ npm run dev
 Look at the [schemas directory](./schemas)
 
 The `express-graphql` middleware is installed in [./config/http.js](./config/http.js)
+
+### GraphQL Queries and Mutations
+
+See [queries.graphql](queries.graphql) for some example queries/mutations. You can copy and paste them to GraphiQL and choose which one to run!
+
+#### Syntax Highlighting in Atom
+
+Install `language-graphql` package for optional syntax highlighting in .graphql files.
