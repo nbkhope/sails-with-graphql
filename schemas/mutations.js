@@ -3,6 +3,7 @@ const {
   GraphQLID,
   GraphQLNonNull,
   GraphQLString,
+  GraphQLError,
 } = require('graphql');
 
 module.exports = new GraphQLObjectType({
@@ -29,12 +30,16 @@ module.exports = new GraphQLObjectType({
           type: GraphQLString,
         },
       },
-      resolve(parentValue, { id, name }) {
+      resolve(parentValue, args) {
         console.log('Update Maker!!!');
-        return Maker.update({ id }, { name }).then(updatedRecords => {
+        return Maker.update({ id: args.id }, args).then(updatedRecords => {
+          if (updatedRecords.length === 0) {
+            return new GraphQLError('Could not find records to update');
+          }
+          console.log('updatedRecords');
           return updatedRecords[0];
         });
       },
-    }
+    },
   },
 });
