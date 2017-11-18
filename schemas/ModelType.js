@@ -23,7 +23,8 @@ module.exports = new GraphQLObjectType({
     product: {
       type: require('./ProductType'),
       resolve(parentValue) {
-        return Model.find({ id: parentValue.product });
+        console.log('fetching model product', parentValue);
+        return Product.findOne({ id: parentValue.product });
       },
     }
   }
