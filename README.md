@@ -27,6 +27,6 @@ npm run dev
 
 ## GraphQL files
 
-Look at <./schemas>
+Look at the [schemas directory](./schemas)
 
-The express-graphql middleware is installed in <./config/http.js>
+The `express-graphql` middleware is installed in [./config/http.js](./config/http.js)
