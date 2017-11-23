@@ -1,7 +1,7 @@
 {
   "name": "sails-with-graphql",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Demonstrates how to setup express-graphql middleware in Sailsjs",
   "keywords": [],
   "dependencies": {
